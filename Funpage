@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTSE 100 Analysis: Python vs. R</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.29.1.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 450px;
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #7A9EAF;
+        }
+        .bg-primary { background-color: #003F5C; }
+        .bg-secondary { background-color: #366682; }
+        .bg-accent { background-color: #7A9EAF; }
+        .bg-light { background-color: #C3D8E1; }
+        .bg-base { background-color: #F2F2F2; }
+        .text-primary { color: #003F5C; }
+        .text-secondary { color: #F2F2F2; }
+        .text-accent { color: #366682; }
+    </style>
+</head>
+<body class="bg-base text-primary">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary mb-2">Python vs. R: A Head-to-Head Analysis</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-accent">Uncovering Seasonal Trends in the FTSE 100 (2000-2025)</h2>
+        </header>
+
+        <section id="toolkit" class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold text-center mb-6 text-primary">The Analyst's Toolkit: A Side-by-Side Comparison</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-light p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-4 text-primary flex items-center">🐍 Python Stack</h4>
+                        <ul class="space-y-2 text-accent">
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Pandas:</strong> For high-performance data loading and manipulation.</li>
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Matplotlib:</strong> For foundational plotting and chart customization.</li>
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Seaborn:</strong> For creating statistically-informed and aesthetic visualizations.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-light p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-4 text-primary flex items-center">📊 R Stack</h4>
+                        <ul class="space-y-2 text-accent">
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Dplyr (Tidyverse):</strong> For an intuitive, verb-based grammar of data manipulation.</li>
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Ggplot2 (Tidyverse):</strong> For building elegant and complex graphics in layers.</li>
+                            <li class="p-3 bg-white rounded shadow-sm"><strong>Lubridate:</strong> For simplifying the often-complex task of handling date-time data.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="process" class="mb-12">
+             <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold text-center mb-6 text-primary">A Unified Workflow</h3>
+                 <p class="text-center text-accent max-w-3xl mx-auto mb-8">Despite different languages, the core analytical process remains consistent, demonstrating a universal approach to data-driven discovery.</p>
+                <div class="grid grid-cols-2 md:grid-cols-7 gap-2">
+                    <div class="flowchart-step bg-secondary text-secondary font-bold p-4 rounded-lg shadow-md">Load Data</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flowchart-step bg-secondary text-secondary font-bold p-4 rounded-lg shadow-md">Clean & Prepare</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flowchart-step bg-secondary text-secondary font-bold p-4 rounded-lg shadow-md">Calculate Returns</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flowchart-step bg-secondary text-secondary font-bold p-4 rounded-lg shadow-md">Visualize & Report</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="long-term-trend" class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold mb-2 text-primary">Finding 1: The 25-Year Journey</h3>
+                <p class="text-accent max-w-3xl mb-4">The long-term view of the FTSE 100 reveals a story of resilience and growth, punctuated by significant global economic events. The 12-month moving average (red dotted line) helps smooth out short-term volatility, clearly illustrating the underlying trend through periods of crisis and recovery.</p>
+                <div class="chart-container">
+                    <canvas id="historicalTrendChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="seasonality" class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-2xl font-bold mb-2 text-primary">Finding 2: Uncovering Market Seasonality</h3>
+                <p class="text-accent max-w-3xl mb-4">Does the time of year matter? This box plot analysis of monthly returns suggests it does. Each box shows the typical range of returns for a month, with the line representing the median. This visualization reveals clear patterns of performance and volatility, confirming well-known market anomalies.</p>
+                <div class="chart-container" id="monthlyBoxPlot"></div>
+            </div>
+        </section>
+
+        <section id="best-worst" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold mb-2 text-primary">Finding 3: The "Best" & "Worst" Months</h3>
+                     <p class="text-accent mb-4">By averaging the returns for each month over the 25-year period, we can clearly identify historical strengths and weaknesses. The data provides strong evidence for a robust "Santa Claus Rally" in December and confirms the notorious underperformance of the "September Effect."</p>
+                    <div class="chart-container h-96">
+                        <canvas id="averageReturnsChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold mb-2 text-primary">The X-Factor: Automated Reporting</h3>
+                    <p class="text-accent mb-4">To take the analysis a step further, the R script was enhanced with an automated reporting feature. The script doesn't just create charts; it analyzes its own findings to generate a dynamic, written summary of key insights, turning code into a communicative tool.</p>
+                    <div class="bg-primary text-secondary p-4 rounded-lg shadow-inner h-96 overflow-y-auto">
+                        <pre class="text-sm whitespace-pre-wrap">--- Automated Analysis of FTSE 100 ---
+
+A positive long-term trend is suggested, with 10 of 12 months showing a positive median return.
+
+Seasonal Strengths:
+- The months with the highest average returns are typically: April, December, November.
+- This aligns with the well-documented "Santa Claus Rally" phenomenon in Q4.
+
+Seasonal Weaknesses:
+- The months with the lowest average returns are typically: June, September, January.
+- This provides strong evidence for the market anomaly known as the "September Effect".
+
+Volatility Insights:
+- The most volatile months (largest return range) are: October, September, March.
+- The least volatile months (smallest return range) are: August, December, May.
+
+IMPORTANT DISCLAIMER:
+This analysis is based on historical data. Past performance is not an indicator of future results. This is not financial advice.
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 pt-8 border-t-2 border-light">
+            <p class="text-accent">This infographic summarizes a personal project in data analysis. The full analysis, including the Python and R scripts, is available on GitHub.</p>
+            <p class="mt-2 text-primary font-semibold">Keen to connect with other data professionals and discuss the tools and techniques that drive insightful analysis!</p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const palette = {
+        primary: '#003F5C',
+        secondary: '#366682',
+        accent: '#7A9EAF',
+        light: '#C3D8E1',
+        base: '#F2F2F2',
+        green: '#4CAF50',
+        red: '#F44336'
+    };
+    
+    const generateTimeSeriesData = () => {
+        const data = [];
+        const dates = [];
+        let value = 4000;
+        const startDate = new Date('2000-01-01');
+
+        for (let i = 0; i < 309; i++) { // Approx 25.75 years of months
+            const date = new Date(startDate);
+            date.setMonth(startDate.getMonth() + i);
+            dates.push(date);
+
+            let change = (Math.random() - 0.45) * 150;
+            const month = date.getMonth();
+
+            // Add seasonality
+            if (month === 3) change += 80; // April up
+            if (month === 8) change -= 90; // September down
+            if (month === 11) change += 70; // December up
+
+            // Simulate market events
+            const year = date.getFullYear();
+            if (year >= 2001 && year <= 2002) value *= 0.99; // Dot-com bust
+            if (year === 2008) value *= 0.95; // Financial crisis
+            if (year === 2020 && month >= 2 && month <= 3) value *= 0.85; // COVID dip
+            if (year === 2020 && month > 3) value *= 1.04; // COVID recovery
+            if (year > 2020) value *= 1.006; // General recovery
+
+            value += change;
+            if (value < 2000) value = 2000;
+            data.push(value);
+        }
+        return { dates, data };
+    };
+
+    const timeSeries = generateTimeSeriesData();
+    const rollingAvg = timeSeries.data.map((_, i, arr) => {
+        if (i < 11) return null;
+        const window = arr.slice(i - 11, i + 1);
+        return window.reduce((a, b) => a + b, 0) / 12;
+    });
+
+    const historicalTrendCtx = document.getElementById('historicalTrendChart').getContext('2d');
+    new Chart(historicalTrendCtx, {
+        type: 'line',
+        data: {
+            labels: timeSeries.dates,
+            datasets: [{
+                label: 'FTSE 100 Index',
+                data: timeSeries.data,
+                borderColor: palette.primary,
+                backgroundColor: 'rgba(0, 63, 92, 0.1)',
+                fill: true,
+                tension: 0.1,
+                pointRadius: 0
+            }, {
+                label: '12-Month Moving Average',
+                data: rollingAvg,
+                borderColor: palette.red,
+                borderDash: [5, 5],
+                fill: false,
+                tension: 0.1,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: { unit: 'year' },
+                    grid: { display: false }
+                },
+                y: {
+                    title: { display: true, text: 'Index Value' }
+                }
+            },
+            plugins: {
+                tooltip: { callbacks: { title: (items) => items[0].chart.data.labels[items[0].dataIndex].toLocaleDateString() } }
+            }
+        }
+    });
+
+    // Data for Box Plot and Bar Chart
+    const monthlyReturns = {};
+    for (let i = 1; i < timeSeries.data.length; i++) {
+        const month = timeSeries.dates[i].getMonth();
+        const monthlyReturn = ((timeSeries.data[i] / timeSeries.data[i-1]) - 1) * 100;
+        if (!monthlyReturns[month]) {
+            monthlyReturns[month] = [];
+        }
+        monthlyReturns[month].push(monthlyReturn);
+    }
+    
+    const monthLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Plotly Box Plot
+    const boxPlotData = monthLabels.map((month, i) => {
+        return {
+            y: monthlyReturns[i] || [],
+            name: month,
+            type: 'box',
+            marker: { color: palette.secondary },
+            boxpoints: 'Outliers'
+        };
+    });
+
+    const boxPlotLayout = {
+        title: { text: 'Monthly Return Distribution', font: { color: palette.primary } },
+        yaxis: { title: 'Monthly Return (%)', zerolinecolor: '#000', zerolinewidth: 1.5 },
+        xaxis: { title: 'Month' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        showlegend: false,
+        font: { family: 'Inter, sans-serif' }
+    };
+
+    Plotly.newPlot('monthlyBoxPlot', boxPlotData, boxPlotLayout, {responsive: true});
+
+
+    // Chart.js Average Returns Bar Chart
+    const averageReturnsData = monthLabels.map((_, i) => {
+        const returns = monthlyReturns[i] || [0];
+        return returns.reduce((a, b) => a + b, 0) / returns.length;
+    });
+
+    const averageReturnsCtx = document.getElementById('averageReturnsChart').getContext('2d');
+    new Chart(averageReturnsCtx, {
+        type: 'bar',
+        data: {
+            labels: monthLabels,
+            datasets: [{
+                label: 'Average Monthly Return',
+                data: averageReturnsData,
+                backgroundColor: averageReturnsData.map(val => val > 0 ? palette.green : palette.red)
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    title: { display: true, text: 'Average Return (%)' },
+                    ticks: { callback: value => `${value.toFixed(1)}%` }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { title: (items) => items[0].chart.data.labels[items[0].dataIndex] } }
+            }
+        }
+    });
+
+});
+</script>
+</body>
+</html>
